@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Screencast Thing</title>
   <link rel="stylesheet" href="/-/style.css">
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 </head>
 
 <body>
@@ -18,20 +20,10 @@
           title of window
         </div>
       </div>
-      <div class="terminal__frame">$ mysqldump drupal > drupal.sql
-Enter password:
-$ cockroach sql --set display_format=records -e "CREATE DATABASE test; USE test; IMPORT MYSQLDUMP ('nodelocal:///drupal.sql');"
--[ RECORD 1 ]
-job_id             | 394965594449870849
-status             | succeeded
-fraction_completed | 1
-rows               | 6789
-index_entries      | 7453
-system_records     | 0
-bytes              | 6679075
-$ <div class="terminal__cursor"></div></div>
+      <div class="terminal__frame"></div>
     </div>
-  </div>
+    <script src="/-/client.js"></script>
+
 </body>
 
 </html>
