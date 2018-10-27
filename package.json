@@ -1,0 +1,17 @@
+{
+  "name": "typer",
+  "version": "1.0.0",
+  "description": "type stuff and see how it shows up",
+  "main": "index.js",
+  "author": "Roland Crosby <roland@cockroachlabs.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
