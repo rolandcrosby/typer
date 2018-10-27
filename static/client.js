@@ -1,5 +1,5 @@
 window.onload = function() {
-  const w = 120;
+  const w = 64;
   const h = 16;
   const buffer = {
     width: w,
@@ -120,7 +120,7 @@ function playSound(identifier) {
 
 const demoIO = [
   { type: "out", text: "$ " },
-  { type: "pause", length: 600 },
+  { type: "pause", length: 5000 },
   { type: "in", text: "mysqldump drupal > drupal.sql\n" },
   { type: "out", text: "Enter password: " },
   { type: "pause", length: 600 },
