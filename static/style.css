@@ -68,10 +68,6 @@ body {
     margin-left: 7px;
 }
 
-terminal__close {
-    margin-left: 4px;
-}
-
 .terminal_control.terminal__close {
     background: #ed655a;
 }
@@ -89,4 +85,8 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+}
+
+.terminal__cursor {
+    background: #c7c7c7;
 }
