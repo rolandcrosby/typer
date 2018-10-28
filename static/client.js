@@ -20,6 +20,11 @@ class Terminal {
     this.render();
   }
 
+  reset() {
+    this.chars = new Array(width * height);
+    this.chars.fill("");
+    this.setTitle("");
+  }
   setSize(width, height) {
     this.width = width;
     this.height = height;
@@ -172,11 +177,11 @@ function playSound(identifier) {
   }
   var snd = soundPool[identifier].find(e => e.paused);
   if (snd) {
-    snd.play();
+    snd.play().catch(() => {});
   } else {
     const snd = new Audio(`/-/${identifier}.mp3`);
     soundPool[identifier].push(snd);
-    snd.play();
+    snd.play().catch(() => {});
   }
 }
 
