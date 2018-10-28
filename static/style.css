@@ -76,8 +76,6 @@ body {
   background: #282a36;
   color: #f8f8f2;
   display: grid;
-  grid-template-columns: repeat(64, 6.5px);
-  grid-template-rows: repeat(16, 14px);
   padding: 2px 3px;
   font-family: "Source Code Pro", monospace;
   font-size: 11px;

@@ -1,26 +1,35 @@
 class Terminal {
   constructor(element, width, height, params) {
     this.element = element;
-    this.width = width;
-    this.height = height;
+    this.setSize(width, height);
     params = params || {};
     if (params.chars && params.chars.length == width * height) {
       this.chars = params.chars;
     } else {
       this.chars = new Array(width * height);
-      this.chars.fill("");  
+      this.chars.fill("");
     }
     this.pos = params.pos || 0;
-    this.setColorful(!!params.colorful);
+    this.setColorful(
+      params.hasOwnProperty("colorful") ? params.colorful : false
+    );
     this.setTitle(params.title || "");
-    this.setShowCursor(!!params.showCursor);
+    this.setShowCursor(
+      params.hasOwnProperty("showCursor") ? params.showCursor : true
+    );
     this.render();
   }
 
-  setupDOM() {
+  setSize(width, height) {
+    this.width = width;
+    this.height = height;
     d3.select(this.element)
-      .style("grid-template-columns", `repeat(${width}), 6.5px`)
-      .style("grid-template-rows", `repeat(${height}), 14px`);
+      .select(".terminal__frame")
+      .attr(
+        "style",
+        `grid-template-columns: repeat(${width}, 6.5px);` +
+          `grid-template-rows: repeat(${height}, 14px)`
+      );
   }
 
   setTitle(title) {
@@ -43,12 +52,21 @@ class Terminal {
   writeText(text) {
     for (var i = 0; i < text.length; i++) {
       let char = text[i];
+      let newPos;
       if (char == "\n") {
-        this.pos = (Math.floor(this.pos / this.width) + 1) * this.width;
+        newPos = (Math.floor(this.pos / this.width) + 1) * this.width;
       } else {
-        this.chars[this.pos] = char;
-        this.pos++;
+        newPos = this.pos + 1;
       }
+      while (newPos >= this.height * this.width) {
+        this.chars.splice(0, this.width);
+        this.chars = this.chars.concat(new Array(this.width).fill(""));
+        newPos -= this.width;
+      }
+      if (char !== "\n") {
+        this.chars[newPos - 1] = char;
+      }
+      this.pos = newPos;
     }
     this.render();
   }
