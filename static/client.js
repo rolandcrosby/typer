@@ -13,6 +13,9 @@ class Terminal {
     this.setColorful(
       params.hasOwnProperty("colorful") ? params.colorful : false
     );
+    this.setEmbedded(
+      params.hasOwnProperty("embedded") ? params.embedded : false
+    );
     this.setTitle(params.title || "");
     this.setShowCursor(
       params.hasOwnProperty("showCursor") ? params.showCursor : true
@@ -47,6 +50,11 @@ class Terminal {
   setColorful(colorful) {
     this.colorful = colorful;
     d3.select(this.element).classed("terminal--colorful", colorful);
+  }
+
+  setEmbedded(embedded) {
+    this.embedded = embedded;
+    d3.select(this.element).classed("terminal--embedded", embedded);
   }
 
   setShowCursor(showCursor) {
@@ -95,7 +103,9 @@ class Terminal {
 }
 
 window.onload = function() {
-  const terminal = new Terminal(document.querySelector(".terminal"), 64, 16);
+  const terminal = new Terminal(document.querySelector(".terminal"), 64, 16, {
+    embedded: inIframe()
+  });
   function getNext() {
     if (demoIO.length == 0) {
       return () => {};
@@ -170,6 +180,14 @@ function setTitle(terminal, title, next) {
   setTimeout(next(), 0);
 }
 
+function inIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
 const soundPool = {};
 function playSound(identifier) {
   if (!soundPool[identifier]) {
@@ -187,7 +205,7 @@ function playSound(identifier) {
 
 const demoIO = [
   { type: "title", text: "bash" },
-  { type: "out", text: "$ " },
+  { type: "out", text: "roland@gceworker-roland:~/mysqldemo $ " },
   { type: "pause", length: 2000 },
   { type: "in", text: "mysqldump drupal > drupal.sql\n" },
   { type: "title", text: "mysqldump" },
@@ -197,7 +215,7 @@ const demoIO = [
   { type: "in", text: "\n" },
   { type: "pause", length: 2000 },
   { type: "title", text: "bash" },
-  { type: "out", text: "$ " },
+  { type: "out", text: "roland@gceworker-roland:~/mysqldemo $ " },
   { type: "pause", length: 1000 },
   {
     type: "in",
@@ -218,5 +236,48 @@ bytes              | 6679075
 `
   },
   { type: "title", text: "bash" },
-  { type: "out", text: "$ " }
+  { type: "out", text: "roland@gceworker-roland:~/mysqldemo $ " },
+  { type: "pause", length: 2000 },
+  {
+    type: "in",
+    text: `cockroach sql -d test -e "SELECT * FROM [SHOW TABLES] LIMIT 10;"\n`
+  },
+  { type: "title", text: "cockroach" },
+  { type: "pause", length: 300 },
+  {
+    type: "out",
+    text: `             table_name
++-----------------------------------+
+  batch
+  block_content
+  block_content__body
+  block_content__field_banner_image
+  block_content__field_content_link
+  block_content__field_copyright
+  block_content__field_disclaimer
+  block_content__field_promo_image
+  block_content__field_summary
+  block_content__field_title
+(10 rows)
+`
+  },
+  { type: "title", text: "bash" },
+  { type: "out", text: "roland@gceworker-roland:~/mysqldemo $ " },
+  { type: "pause", length: 2000 },
+  {
+    type: "in",
+    text: `cockroach sql -d test -e "SELECT COUNT(*) total_tables FROM [SHOW TABLES];"\n`
+  },
+  { type: "title", text: "cockroach" },
+  { type: "pause", length: 300 },
+  {
+    type: "out",
+    text: `  total_tables
++--------------+
+           109
+(1 row)
+`
+  },
+  { type: "title", text: "bash" },
+  { type: "out", text: "roland@gceworker-roland:~/mysqldemo $ " }
 ];

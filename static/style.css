@@ -18,7 +18,6 @@ body {
   height: 100%;
 }
 .terminal {
-  border: 1px solid #999;
   padding: 42px;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
@@ -90,4 +89,12 @@ body {
 
 .terminal--show_cursor .terminal__cursor {
   background: #c7c7c7;
+}
+
+.terminal.terminal--embedded {
+  padding: 3px;
+}
+
+.terminal--embedded .terminal__window {
+  box-shadow: 0 0 0.2px 0.6px #020202;
 }
