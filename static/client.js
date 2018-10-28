@@ -103,9 +103,17 @@ class Terminal {
 }
 
 window.onload = function() {
-  const terminal = new Terminal(document.querySelector(".terminal"), 64, 16, {
-    embedded: inIframe()
-  });
+  let terminal;
+  if (inIframe()) {
+    let w = Math.floor((document.body.offsetWidth - 6 - 6) / 6.5);
+    let h = Math.floor((document.body.offsetHeight - 6 - 21 - 4) / 14);
+    terminal = new Terminal(document.querySelector(".terminal"), w, h, {
+      embedded: true
+    });
+  } else {
+    terminal = new Terminal(document.querySelector(".terminal"), 64, 16);
+  }
+
   function getNext() {
     if (demoIO.length == 0) {
       return () => {};
@@ -240,7 +248,7 @@ bytes              | 6679075
   { type: "pause", length: 2000 },
   {
     type: "in",
-    text: `cockroach sql -d test -e "SELECT * FROM [SHOW TABLES] LIMIT 10;"\n`
+    text: `cockroach sql -d test -e "SELECT * FROM [SHOW TABLES] LIMIT 5;"\n`
   },
   { type: "title", text: "cockroach" },
   { type: "pause", length: 300 },
@@ -253,12 +261,7 @@ bytes              | 6679075
   block_content__body
   block_content__field_banner_image
   block_content__field_content_link
-  block_content__field_copyright
-  block_content__field_disclaimer
-  block_content__field_promo_image
-  block_content__field_summary
-  block_content__field_title
-(10 rows)
+(5 rows)
 `
   },
   { type: "title", text: "bash" },
